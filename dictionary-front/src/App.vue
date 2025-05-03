@@ -8,7 +8,12 @@
       
       <LanguageSelector />
       <TranslatorInput @translate="handleTranslation" />
+     <div class="translator-content">
+       <div class="translator-content-item">
+         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque excepturi modi provident saepe rem necessitatibus a suscipit sunt neque exercitationem omnis, similique nesciunt minus veritatis eligendi porro, perferendis quaerat laborum eius repudiandae repellat sint! Nobis, blanditiis quod rerum quos cumque quae perferendis laboriosam in tempora sit numquam modi amet! Beatae.</p> -->
+       </div>
       <NavigationBar />
+     </div>
     </div>
     
     <FeatureCards />

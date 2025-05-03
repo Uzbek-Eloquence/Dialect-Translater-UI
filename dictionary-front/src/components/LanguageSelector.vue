@@ -9,10 +9,9 @@
         <span class="language-name">Adabiy Uzbek</span>
       </button>
       
-      <div class="swap-btn">
-        <button @click="swapLanguages">
-          <span class="swap-icon">⟷</span>
-        </button>
+      <div class="icon-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-horizontal-icon lucide-move-horizontal">
+          <path d="m18 8 4 4-4 4"/><path d="M2 12h20"/><path d="m6 8-4 4 4 4"/></svg> <!-- Unicode left-right arrow -->
       </div>
       
       <button 
@@ -36,8 +35,8 @@ const setSourceLanguage = (lang) => {
   targetLanguage.value = lang === 'adabiy' ? 'parkent' : 'adabiy';
 };
 
-const swapLanguages = () => {
-  [sourceLanguage.value, targetLanguage.value] = 
-    [targetLanguage.value, sourceLanguage.value];
-};
+// const swapLanguages = () => {
+//   [sourceLanguage.value, targetLanguage.value] = 
+//     [targetLanguage.value, sourceLanguage.value];
+// };
 </script>
