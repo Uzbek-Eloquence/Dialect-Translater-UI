@@ -1,42 +1,35 @@
-﻿// router/index.js
-import { createRouter, createWebHistory } from 'vue-router';
-import App from '../App.vue';
-
-// Import pages (create these files in your 'views' or 'pages' directory)
-// These are just placeholders - you'll need to create these components
-const Dictionary = () => import('../components/Dictionary.vue');
+﻿// src/routers/index.js
+import { createRouter, createWebHistory } from 'vue-router'
+import LiteraryWordsPage from '../pages/LiteraryWords.vue'
+import ApiDocumentationPage from '../pages/APIDocumentation.vue'
 
 const routes = [
     {
         path: '/',
-        name: 'Home',
-        component: App
+        name: 'home',
+        // No component needed for home route as App.vue will handle this
     },
     {
-        path: '/dictionary',
-        name: 'Dictionary',
-        component: Dictionary
+        path: '/words',
+        name: 'literaryWords',
+        component: LiteraryWordsPage
     },
     {
-        path: '/map',
-        name: 'Map',
-        component: Map
+        path: '/api',
+        name: 'apiDocs',
+        component: ApiDocumentationPage
     },
+    // Catch-all route for 404 errors
     {
-        path: '/history',
-        name: 'History',
-        component: History
-    },
-    {
-        path: '/saved',
-        name: 'Saved',
-        component: Saved
+        path: '/:pathMatch(.*)*',
+        name: 'notFound',
+        redirect: { name: 'home' }
     }
-];
+]
 
 const router = createRouter({
     history: createWebHistory(),
     routes
-});
+})
 
-export default router;
+export default router

@@ -48,6 +48,31 @@ export const dialectService = {
     }
 };
 
+// Literary Words Service
+export const literaryWordsService = {
+    // Get literary words with pagination
+    getLiteraryWords(params) {
+        return apiClient.post('/api/LiteraryWord', {
+            pageNumber: params.pageNumber || 0,
+            pageSize: 20,
+            title: params.title || null,
+            partOfSpeechId: 0, // Default value, can be modified if needed
+            status: 0, // Default value, can be modified if needed
+            description: params.description || null
+        }).then(response => {
+            return {
+                success: true,
+                payload: response.data.payload
+            };
+        }).catch(error => {
+            return {
+                success: false,
+                error: error.message || 'Failed to fetch literary words'
+            };
+        });
+    }
+};
+
 // Error handler for API requests
 apiClient.interceptors.response.use(
     response => response,
@@ -57,8 +82,32 @@ apiClient.interceptors.response.use(
     }
 );
 
+// API Service class that combines all services
+export class ApiService {
+    constructor() {
+        this.baseUrl = API_BASE_URL;
+    }
+
+    // Translation methods
+    translateWord(word, fromType, toType) {
+        return translationService.translate(word, fromType, toType);
+    }
+
+    // Dialect methods
+    getDialects() {
+        return dialectService.getDialects();
+    }
+
+    // Literary Word methods - Using the POST endpoint for both search and pagination
+    getLiteraryWords(params) {
+        return literaryWordsService.getLiteraryWords(params);
+    }
+}
+
 export default {
     WordType,
     translationService,
-    dialectService
+    dialectService,
+    literaryWordsService,
+    ApiService
 };
