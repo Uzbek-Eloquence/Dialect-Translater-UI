@@ -41,7 +41,7 @@
               So'zlarni kiriting va tarjima qilish tugmasini bosing
             </div>
           </div>
-          <NavigationBar />
+          <!-- <NavigationBar /> -->
         </div>
       </div>
 
@@ -58,7 +58,7 @@ import { ref } from 'vue';
 import LanguageSelector from './components/LanguageSelector.vue';
 import TranslatorInput from './components/TranslatorInput.vue';
 import FeatureCards from './components/FeatureCards.vue';
-import NavigationBar from './components/NavigationBar.vue';
+// import NavigationBar from './components/NavigationBar.vue';
 import { WordType, translationService } from './services/api';
 
 export default {
@@ -67,7 +67,7 @@ export default {
     LanguageSelector,
     TranslatorInput,
     FeatureCards,
-    NavigationBar
+    // NavigationBar
   },
   setup() {
     // State variables
@@ -201,7 +201,7 @@ export default {
   font-size: 1.8rem;
   font-weight: 600;
   color: #5b5ef4;
-  margin-right: 0.5rem;
+  /* margin-right: 0.5rem; */
 }
 
 .audio-icon {
@@ -212,7 +212,7 @@ export default {
   color: #5b5bf8;
   font-size: 1.8rem;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
   position: relative;
 }
 
@@ -229,14 +229,14 @@ export default {
 }
 
 .translator-content {
-  margin-top: 1.5rem;
+  padding: 1rem 2rem;
 }
 
 .translator-content-item {
   padding: 1.5rem;
   background-color: #f8f9fa;
   border-radius: 8px;
-  min-height: 120px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;

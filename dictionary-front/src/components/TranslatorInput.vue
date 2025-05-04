@@ -47,18 +47,19 @@ const handleSearch = () => {
 <style scoped>
 .translator-input-container {
   width: 100%;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
 }
 
 .translator-input {
-  margin: 1.5rem auto;
+  margin: 1.8rem 1.8rem 0.2rem 1.8rem;
   max-width: 1000px;
   display: flex;
   align-items: stretch;
-  border-radius: 8px;
+  border-radius: 1.8rem;
   overflow: hidden;
   border: 1px solid #e0e0e0;
   background-color: white;
+
 }
 
 .text-input {
@@ -75,13 +76,14 @@ const handleSearch = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 56px;
-  background-color: #4a90e2;
+  min-width: 60px;
+  background-color: #5b5ef4;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s;
   padding: 0;
   margin: 0;
+  
 }
 
 .search-button:hover {
@@ -89,8 +91,9 @@ const handleSearch = () => {
 }
 
 .search-button:disabled {
-  background-color: #a0c3f0;
+  background-color: #5b5ef4;
   cursor: not-allowed;
+  border-radius: 1.8rem;
 }
 
 .search-spinner {

@@ -3,7 +3,7 @@
     <div class="api-docs-container">
       <div class="api-docs-header">
         <div class="logo-container">
-          <span class="title-label">Lahja</span>
+          <span class="title-label"  @click="goHome">Lahja</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5b5ef4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="audio-icon">
             <path d="M2 10v3"/>
             <path d="M6 6v11"/>
@@ -406,7 +406,11 @@ public async Task&lt;LiteraryWordResponse&gt; GetLiteraryWords(int page = 0, int
 
 <script>
 export default {
-  name: 'ApiDocumentationPage'
+  name: 'ApiDocumentationPage',
+  methods: {
+    goHome() {
+      this.$router.push('/')
+    }},
 }
 </script>
 
@@ -445,6 +449,7 @@ export default {
 
 .logo-container {
   position: absolute;
+  margin-top: 20px;
   top: 1.5rem;
   left: 2rem;
   display: flex;
@@ -453,14 +458,21 @@ export default {
 }
 
 .title-label {
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-size: 48px;
+  font-weight: 700;
   color: #5b5ef4;
   margin-right: 0.5rem;
+
 }
+.title-label:hover{
+  cursor: pointer;
+}
+
 
 .audio-icon {
   margin-top: 5px;
+  width: 30px;
+  height: 30px;
 }
 
 .api-title {

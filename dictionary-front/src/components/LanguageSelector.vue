@@ -31,11 +31,10 @@
 
       <!-- Swap button -->
       <button class="swap-button" @click="swapLanguages">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 19h7a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-7"></path>
-          <path d="M5 19h7a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5"></path>
-          <path d="M12 12H3"></path>
-          <path d="m8 8-4 4 4 4"></path>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-horizontal-icon lucide-move-horizontal">
+          <path d="m18 8 4 4-4 4"/>
+          <path d="M2 12h20"/>
+          <path d="m6 8-4 4 4 4"/>
         </svg>
       </button>
 
@@ -227,8 +226,7 @@ export default {
 
 <style scoped>
 .language-selector {
-  margin: 0.5rem 0;
-  width: 100%;
+  margin: 0.5rem 2rem;
 }
 
 .language-container {

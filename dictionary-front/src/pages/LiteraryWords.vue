@@ -3,7 +3,7 @@
     <!-- Logo header -->
     <div class="header-container">
       <div class="logo-container">
-        <span class="title-label">Lahja</span>
+        <span class="title-label"  @click="goHome">Lahja</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5b5ef4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="audio-icon">
           <path d="M2 10v3"/>
           <path d="M6 6v11"/>
@@ -113,10 +113,17 @@
 <script>
 import { ref, computed, onMounted } from 'vue';
 import { ApiService } from '../services/api';
+// import { useRouter } from 'vue-router'
+
+// const router = useRouter()
+
 
 export default {
   name: 'LiteraryWordsPage',
-
+  methods: {
+    goHome() {
+      this.$router.push('/')
+    }},
   setup() {
     const apiService = new ApiService();
     const words = ref([]);
@@ -161,6 +168,9 @@ export default {
     const totalPages = computed(() => {
       return Math.ceil(totalCount.value / pageSize.value);
     });
+    
+  
+    
 
     const displayedPageNumbers = computed(() => {
       const numbers = [];
@@ -186,7 +196,7 @@ export default {
 
       try {
         const response = await apiService.getLiteraryWords({
-          pageNumber: currentPage.value,
+          pageNumber: currentPage.value+1,
           pageSize: pageSize.value,
           title: searchQuery.value || null,
           description: null
@@ -196,7 +206,7 @@ export default {
           words.value = response.payload.data;
           totalCount.value = response.payload.totalCount;
           // Update current page in case server adjusted it
-          currentPage.value = response.payload.pageNumber;
+          currentPage.value = response.payload.pageNumber-1;
 
           // Scroll to top
           const scrollArea = document.querySelector('.scrollable-content');
@@ -298,25 +308,38 @@ body, html {
   z-index: 10;
 }
 
-.logo-container {
-  display: flex;
-  align-items: center;
-  margin-right: 0;
-}
+
 
 .header-spacer {
   flex: 1;
 }
 
-.title-label {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #5b5ef4;
-  margin-right: 0.5rem;
+.logo-container {
+  position: absolute;
+  margin-top: 20px;
+  top: 1.5rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
 }
 
+.title-label {
+  font-size: 48px;
+  font-weight: 700;
+  color: #5b5ef4;
+  margin-right: 0.5rem;
+
+}
+.title-label:hover{
+  cursor: pointer;
+}
+
+
 .audio-icon {
-  margin-top: 3px;
+  margin-top: 5px;
+  width: 30px;
+  height: 30px;
 }
 
 .page-title {
@@ -432,7 +455,7 @@ body, html {
 .word-card {
   background-color: #f8f9fb;
   border-radius: 8px;
-  padding: 1.25rem;
+  padding: 0.8rem;
   transition: all 0.3s ease;
   border: 1px solid #eee;
 }
@@ -453,7 +476,7 @@ body, html {
 
 .word-title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: #333;
   font-weight: 600;
 }
@@ -496,9 +519,12 @@ body, html {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: white;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(3px);
+  padding: 0px 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 1rem 10rem;
 }
 
 .pagination-container {
@@ -508,6 +534,8 @@ body, html {
   padding: 1rem 0;
   max-width: 1000px;
   margin: 0 auto;
+  background-color: transparent;
+  color:transparent;
 }
 
 .pagination-button {
