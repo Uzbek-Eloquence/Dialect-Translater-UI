@@ -1,10 +1,10 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
+// main.js
+import { createApp } from 'vue';
+import App from './App.vue';
+import '../src/assets/style.css'; // You may need to create this file for global styles
 
-import './assets/style.css'
+// Create Vue application
+const app = createApp(App);
 
-createApp(App).mount('#app')
-const app = createApp(App)
-app.use(createPinia())
-app.mount('#app')
+// Mount application
+app.mount('#app');

@@ -4,7 +4,20 @@
   --border-radius: 15px;
   --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 15px auto -40px auto;
+}
 
+.title-label {
+  font-family:"Tangerine", cursive;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 48px;
+  color: #5b5ef4;
+}
 body {
   font-family: Georgia, 'Times New Roman', Times, serif;
   background-color: var(--light-gray);
