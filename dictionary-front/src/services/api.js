@@ -37,6 +37,51 @@ export const translationService = {
             from: fromType,
             to: toType
         });
+    },
+
+    // Translate from audio recording - fixed to handle direct blob upload
+    translateFromAudio(audioData) {
+        // Create a new FormData object here every time (don't reuse passed FormData)
+        const formData = new FormData();
+
+        if (audioData instanceof Blob) {
+            // If it's a blob, add it directly
+            formData.append('file', audioData, 'recording.wav');
+        }
+        else if (audioData instanceof File) {
+            // If it's a File object, add it directly
+            formData.append('file', audioData);
+        }
+        else if (audioData instanceof FormData) {
+            // If it's FormData, use it as is - but we'll avoid this case
+            return axios.post(
+                `${API_BASE_URL}/api/DialectalWord/translate-from-audio`,
+                audioData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    timeout: 30000
+                }
+            );
+        }
+        else if (audioData instanceof ArrayBuffer) {
+            // For ArrayBuffer, create a blob first
+            const blob = new Blob([audioData], { type: 'audio/wav' });
+            formData.append('file', blob, 'recording.wav');
+        }
+        else {
+            console.error('Invalid audio data type', typeof audioData);
+            return Promise.reject(new Error('Invalid audio data type'));
+        }
+
+        // Send the FormData
+        return axios.post(
+            `${API_BASE_URL}/api/DialectalWord/translate-from-audio`,
+            formData,
+            {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                timeout: 30000
+            }
+        );
     }
 };
 
@@ -47,6 +92,7 @@ export const dialectService = {
         return apiClient.get('/api/Dialect');
     }
 };
+
 
 // Literary Words Service
 export const literaryWordsService = {
@@ -91,6 +137,11 @@ export class ApiService {
     // Translation methods
     translateWord(word, fromType, toType) {
         return translationService.translate(word, fromType, toType);
+    }
+
+    // Audio translation method
+    translateFromAudio(audioData) {
+        return translationService.translateFromAudio(audioData);
     }
 
     // Dialect methods
