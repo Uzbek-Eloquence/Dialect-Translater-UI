@@ -110,47 +110,57 @@ export default {
     };
 
     // Handle translation
-    const handleTranslation = async (text) => {
-      if (!text.trim()) return;
+    const handleTranslation = async (input) => {
+      // If input is a string, trim and validate
+      if (typeof input === 'string') {
+        const text = input.trim();
+        if (!text) return;
 
-      isLoading.value = true;
-      translationResult.value = null;
-      error.value = null;
+        isLoading.value = true;
+        translationResult.value = null;
+        error.value = null;
 
-      try {
-        // Check if either source or target is Literary, but not both
-        if (
-            (sourceType.value === WordType.LITERARY && targetType.value === WordType.LITERARY) ||
-            (sourceType.value !== WordType.LITERARY && targetType.value !== WordType.LITERARY)
-        ) {
-          throw new Error('Translation must be between Literary Uzbek and a dialect');
+        try {
+          if (
+              (sourceType.value === WordType.LITERARY && targetType.value === WordType.LITERARY) ||
+              (sourceType.value !== WordType.LITERARY && targetType.value !== WordType.LITERARY)
+          ) {
+            throw new Error('Translation must be between Literary Uzbek and a dialect');
+          }
+
+          console.log(`Translating from ${getDialectName(sourceType.value)} to ${getDialectName(targetType.value)}: "${text}"`);
+
+          const response = await translationService.translate(
+              text,
+              sourceType.value,
+              targetType.value
+          );
+
+          if (response.data && response.data.success && response.data.payload) {
+            translationResult.value = response.data.payload;
+          } else if (response.data && response.data.error) {
+            error.value = response.data.error.message || 'Unknown error occurred';
+          } else {
+            error.value = 'Tarjima natijasi olinmadi';
+          }
+        } catch (err) {
+          error.value = err.message || 'Tarjima qilishda xatolik yuz berdi. Iltimos, qaytadan urinib ko\'ring.';
+        } finally {
+          isLoading.value = false;
         }
-
-        console.log(`Translating from ${getDialectName(sourceType.value)} to ${getDialectName(targetType.value)}: "${text}"`);
-
-        const response = await translationService.translate(
-            text,
-            sourceType.value,
-            targetType.value
-        );
-
-        console.log('Translation response:', response.data);
-
-        if (response.data && response.data.success && response.data.payload) {
-          translationResult.value = response.data.payload;
-        } else if (response.data && response.data.error) {
-          error.value = response.data.error.message || 'Unknown error occurred';
-          console.error('Translation error:', response.data.error);
-        } else {
-          error.value = 'Tarjima natijasi olinmadi';
-        }
-      } catch (err) {
-        console.error('Translation failed:', err);
-        error.value = err.message || 'Tarjima qilishda xatolik yuz berdi. Iltimos, qaytadan urinib ko\'ring.';
-      } finally {
+      }
+      // If input is an object, just set the translation result directly
+      else if (typeof input === 'object' && input !== null) {
+        // You can add validation here if needed
+        translationResult.value = {
+          translatedWord: input.translatedWord || '',
+          partOfSpeech: input.partOfSpeech || ''
+        };
         isLoading.value = false;
+        error.value = null;
       }
     };
+
 
     return {
       sourceType,

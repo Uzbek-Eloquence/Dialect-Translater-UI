@@ -256,13 +256,11 @@ const sendAudioToAPI = async (audioBlob) => {
       inputText.value = response.data.payload.translatedWord || '';
 
       if (inputText.value.trim()) {
-        emit('voiceResult', {
-          text: inputText.value,
+        emit('translate', {
+          translatedWord: inputText.value,
           partOfSpeech: response.data.payload.partOfSpeech || ''
         });
-
-        // Optionally auto-search with the result
-        handleSearch();
+        
       } else {
         emit('error', 'Ovoz aniqlanmadi. Iltimos, qayta urinib ko\'ring');
       }
