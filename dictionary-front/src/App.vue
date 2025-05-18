@@ -23,7 +23,11 @@
             @update:sourceType="updateSourceType"
             @update:targetType="updateTargetType"
         />
-        <TranslatorInput @translate="handleTranslation" :isLoading="isLoading" />
+        <TranslatorInput
+            :source-type="sourceType"
+            :target-type="targetType"
+            @translate="handleTranslation"
+            :isLoading="isLoading" />
         <div class="translator-content">
           <div class="translator-content-item">
             <div v-if="isLoading" class="loading-indicator">

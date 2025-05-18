@@ -38,13 +38,21 @@
 
 <script setup>
 import { ref, defineEmits, defineProps, onUnmounted } from 'vue';
-import { ApiService } from '../services/api';
+import {ApiService, WordType} from '../services/api';
 
 const apiService = new ApiService();
 const props = defineProps({
   isLoading: {
     type: Boolean,
     default: false
+  },
+  sourceType: {
+    type: Number,
+    default: WordType.LITERARY
+  },
+  targetType: {
+    type: Number,
+    default: WordType.PARKENT
   }
 });
 
@@ -193,7 +201,7 @@ const initRecorder = async () => {
         console.log('Converted WAV blob:', wavBlob.size, 'bytes,', wavBlob.type);
 
         // Send the WAV audio to the API
-        await sendAudioToAPI(wavBlob);
+        await sendAudioToAPI(wavBlob,props);
 
         // Reset chunks for next recording
         audioChunks.value = [];
@@ -240,8 +248,9 @@ const toggleRecording = async () => {
 };
 
 // Send audio to API using the API service
-const sendAudioToAPI = async (audioBlob) => {
+const sendAudioToAPI = async (audioBlob,props) => {
   try {
+    console.log(props);
     // Show processing message
     emit('processing', 'Audio uzatilmoqda...');
 
@@ -249,7 +258,7 @@ const sendAudioToAPI = async (audioBlob) => {
     console.log('Sending audio file:', audioBlob.type, audioBlob.size, 'bytes');
 
     // Send the blob directly - let the API service handle FormData creation
-    const response = await apiService.translateFromAudio(audioBlob);
+    const response = await apiService.translateFromAudio(audioBlob,props);
 
     // Handle the API response
     if (response.data && response.data.success && response.data.payload) {
@@ -260,7 +269,7 @@ const sendAudioToAPI = async (audioBlob) => {
           translatedWord: inputText.value,
           partOfSpeech: response.data.payload.partOfSpeech || ''
         });
-        
+
       } else {
         emit('error', 'Ovoz aniqlanmadi. Iltimos, qayta urinib ko\'ring');
       }

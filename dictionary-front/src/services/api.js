@@ -40,7 +40,8 @@ export const translationService = {
     },
 
     // Translate from audio recording - fixed to handle direct blob upload
-    translateFromAudio(audioData) {
+    translateFromAudio(audioData,props) {
+        console.log(props)
         // Create a new FormData object here every time (don't reuse passed FormData)
         const formData = new FormData();
 
@@ -58,7 +59,11 @@ export const translationService = {
                 `${API_BASE_URL}/api/DialectalWord/translate-from-audio`,
                 audioData,
                 {
-                    headers: { 'Content-Type': 'multipart/form-data' },
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'From' : props.sourceType,
+                        'To' : props.targetType,
+                    },
                     timeout: 30000
                 }
             );
@@ -140,8 +145,8 @@ export class ApiService {
     }
 
     // Audio translation method
-    translateFromAudio(audioData) {
-        return translationService.translateFromAudio(audioData);
+    translateFromAudio(audioData,props) {
+        return translationService.translateFromAudio(audioData,props);
     }
 
     // Dialect methods
