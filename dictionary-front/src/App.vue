@@ -37,6 +37,7 @@
             <div v-else-if="translationResult" class="translation-result">
               <p class="translated-word">{{ translationResult.translatedWord }}</p>
               <p v-if="translationResult.partOfSpeech" class="part-of-speech">{{ translationResult.partOfSpeech }}</p>
+              <p v-if="translationResult.partOfSpeech" class="part-of-speech">{{ translationResult.description }}</p>
             </div>
             <div v-else-if="error" class="translation-error">
               {{ error }}

@@ -40,44 +40,45 @@ export const translationService = {
     },
 
     // Translate from audio recording - fixed to handle direct blob upload
-    translateFromAudio(audioData,props) {
-        console.log(props)
+    translateFromAudio(audioData, props) {
+        console.log(props);
         // Create a new FormData object here every time (don't reuse passed FormData)
         const formData = new FormData();
-
+        
+        // Correctly map to the API record properties: From, To, Audio
+        formData.append('From', props.sourceType);
+        formData.append('To', props.targetType);
+        
+        // Handle different audio data types and append as 'Audio' parameter
         if (audioData instanceof Blob) {
             // If it's a blob, add it directly
-            formData.append('file', audioData, 'recording.wav');
+            formData.append('Audio', audioData, 'recording.wav');
         }
         else if (audioData instanceof File) {
             // If it's a File object, add it directly
-            formData.append('file', audioData);
+            formData.append('Audio', audioData);
         }
         else if (audioData instanceof FormData) {
-            // If it's FormData, use it as is - but we'll avoid this case
-            return axios.post(
-                `${API_BASE_URL}/api/DialectalWord/translate-from-audio`,
-                audioData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'From' : props.sourceType,
-                        'To' : props.targetType,
-                    },
-                    timeout: 30000
-                }
-            );
+            // This case should be avoided as it won't properly construct the request
+            console.warn('FormData passed directly - converting to proper format');
+            // Extract file from existing FormData if possible
+            const file = audioData.get('file') || audioData.get('Audio');
+            if (file) {
+                formData.append('Audio', file);
+            } else {
+                return Promise.reject(new Error('No audio file found in FormData'));
+            }
         }
         else if (audioData instanceof ArrayBuffer) {
             // For ArrayBuffer, create a blob first
             const blob = new Blob([audioData], { type: 'audio/wav' });
-            formData.append('file', blob, 'recording.wav');
+            formData.append('Audio', blob, 'recording.wav');
         }
         else {
             console.error('Invalid audio data type', typeof audioData);
             return Promise.reject(new Error('Invalid audio data type'));
         }
-
+        
         // Send the FormData
         return axios.post(
             `${API_BASE_URL}/api/DialectalWord/translate-from-audio`,
